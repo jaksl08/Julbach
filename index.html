@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>THE ARCHIVE</title>
+<meta name="description" content="Privates Party-Archiv — Fotos, Videos und Geschichten.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============================================================
+     LOGIN SCREEN
+     ============================================================ -->
+<div id="login-screen">
+  <div class="login-glow"></div>
+  <div class="login-box" id="login-box">
+    <div class="login-mark">PRIVATE ACCESS</div>
+    <h1>THE ARCHIVE</h1>
+    <p>Nur für uns. Gib das Passwort ein, um reinzukommen.</p>
+    <div class="login-field">
+      <input type="password" id="password-input" placeholder="••••••••" autocomplete="off" inputmode="text">
+    </div>
+    <button id="enter-btn">ENTER</button>
+    <div class="login-error" id="login-error">Falsches Passwort. Versuch's nochmal.</div>
+  </div>
+</div>
+
+<!-- ============================================================
+     APP
+     ============================================================ -->
+<div id="app">
+
+  <header class="topbar">
+    <div class="brand">THE <span>ARCHIVE</span></div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menü">☰ Menü</button>
+    <nav class="main-nav" id="main-nav">
+      <button data-view="home" class="active">HOME</button>
+      <button data-view="photos">PHOTOS</button>
+      <button data-view="videos">VIDEOS</button>
+      <button data-view="stories">STORIES</button>
+      <button data-view="events">EVENTS</button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ---------------- HOME ---------------- -->
+    <section class="view" id="view-home">
+      <div class="hero">
+        <div class="hero-orb"></div>
+        <h1>THE ARCHIVE</h1>
+        <p>Our nights. Our stories. Our memories.</p>
+        <div class="stat-row" id="home-stats"></div>
+      </div>
+
+      <div class="home-block">
+        <div class="section-head">
+          <h2>Neueste Fotos</h2>
+          <a class="see-all" data-view-link="photos">Alle Fotos →</a>
+        </div>
+        <div class="row-scroll" id="home-photos"></div>
+      </div>
+
+      <div class="home-block">
+        <div class="section-head">
+          <h2>Neueste Videos</h2>
+          <a class="see-all" data-view-link="videos">Alle Videos →</a>
+        </div>
+        <div class="row-scroll" id="home-videos"></div>
+      </div>
+
+      <div class="home-block">
+        <div class="section-head">
+          <h2>Neueste Stories</h2>
+          <a class="see-all" data-view-link="stories">Alle Stories →</a>
+        </div>
+        <div class="row-scroll" id="home-stories"></div>
+      </div>
+
+      <div class="home-block">
+        <div class="section-head">
+          <h2>Vergangene Events</h2>
+          <a class="see-all" data-view-link="events">Alle Events →</a>
+        </div>
+        <div class="row-scroll" id="home-events"></div>
+      </div>
+    </section>
+
+    <!-- ---------------- PHOTOS ---------------- -->
+    <section class="view hidden" id="view-photos">
+      <div class="section-head"><h2>Photos</h2></div>
+      <div class="filter-bar">
+        <input type="text" id="photo-search" placeholder="Suche nach Titel, Ort oder Person …">
+      </div>
+      <div class="masonry" id="photos-grid"></div>
+    </section>
+
+    <!-- ---------------- VIDEOS ---------------- -->
+    <section class="view hidden" id="view-videos">
+      <div class="section-head"><h2>Videos</h2></div>
+      <div class="video-grid" id="videos-grid"></div>
+    </section>
+
+    <!-- ---------------- STORIES ---------------- -->
+    <section class="view hidden" id="view-stories">
+      <div class="section-head"><h2>Stories</h2></div>
+      <div class="stories-grid" id="stories-grid"></div>
+    </section>
+
+    <!-- ---------------- EVENTS ---------------- -->
+    <section class="view hidden" id="view-events">
+      <div class="section-head"><h2>Events</h2></div>
+      <div class="timeline" id="events-timeline"></div>
+    </section>
+
+  </main>
+
+  <footer>THE ARCHIVE · privates Party-Archiv · nur für unsere Crew</footer>
+</div>
+
+<!-- ============================================================
+     OVERLAYS
+     ============================================================ -->
+
+<div class="overlay" id="lightbox">
+  <button class="overlay-close" data-close>✕</button>
+  <button class="lb-nav lb-prev" id="lb-prev">‹</button>
+  <div class="lightbox-inner">
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption">
+      <div class="title" id="lightbox-title"></div>
+      <div class="meta" id="lightbox-meta"></div>
+      <div class="desc" id="lightbox-desc"></div>
+    </div>
+  </div>
+  <button class="lb-nav lb-next" id="lb-next">›</button>
+</div>
+
+<div class="overlay" id="video-modal">
+  <button class="overlay-close" data-close>✕</button>
+  <div class="video-modal-inner">
+    <video id="video-player" controls playsinline></video>
+    <div class="video-modal-caption">
+      <div class="title" id="video-title"></div>
+      <div class="meta" id="video-meta"></div>
+      <div class="desc" id="video-desc"></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="story-reader">
+  <button class="overlay-close" data-close>✕</button>
+  <div class="reader-inner">
+    <div class="reader-cover"><img id="reader-cover-img" src="" alt=""></div>
+    <div class="reader-body">
+      <div class="meta" id="reader-meta"></div>
+      <h2 id="reader-title"></h2>
+      <div id="reader-text"></div>
+      <div class="reader-gallery" id="reader-gallery"></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="event-detail">
+  <button class="overlay-close" data-close>✕</button>
+  <div class="event-detail-inner" id="event-detail-inner"></div>
+</div>
+
+<script src="data/photos.js"></script>
+<script src="data/videos.js"></script>
+<script src="data/stories.js"></script>
+<script src="data/events.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
