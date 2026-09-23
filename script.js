@@ -7,7 +7,7 @@
    ------------------------------------------------------------------------
    Ändere NUR diese eine Zeile, um das Passwort der Website zu ändern.
    ------------------------------------------------------------------------ */
-const SITE_PASSWORD = "unsereparty2026";
+const SITE_PASSWORD = "19102008";
 
 /* Hinweis zur Sicherheit: siehe README.md — dieses Passwort wird rein im
    Browser (JavaScript) geprüft. Der Code ist auf GitHub Pages öffentlich
