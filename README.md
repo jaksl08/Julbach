@@ -200,6 +200,6 @@ const SITE_PASSWORD = "meinNeuesPasswort";
 ## Sonstiges
 
 - Alle Pfade in der Seite sind **relativ** (`images/foto.jpg` statt `/images/foto.jpg`), damit die Seite auch unter `username.github.io/repo-name/` korrekt funktioniert.
-- Der Login-Status wird pro Browser-Tab in `sessionStorage` gespeichert — nach dem Schließen des Browsers musst du das Passwort erneut eingeben.
+- Der Login-Status wird **nirgendwo gespeichert** (kein `localStorage`, kein `sessionStorage`, kein Cookie) — bei jedem Aufrufen, Neuladen oder erneuten Öffnen der Seite muss das Passwort neu eingegeben werden.
 - Änderungen an `data/*.js` erscheinen sofort nach dem Neuladen der Seite — kein Build-Schritt nötig.
 - Fehlt ein Bild (z. B. falscher Dateiname), zeigt die Seite automatisch `images/placeholder.jpg` an, statt kaputt auszusehen.

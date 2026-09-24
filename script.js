@@ -7,7 +7,7 @@
    ------------------------------------------------------------------------
    Ändere NUR diese eine Zeile, um das Passwort der Website zu ändern.
    ------------------------------------------------------------------------ */
-const SITE_PASSWORD = "19102008";
+const SITE_PASSWORD = "unsereparty2026";
 
 /* Hinweis zur Sicherheit: siehe README.md — dieses Passwort wird rein im
    Browser (JavaScript) geprüft. Der Code ist auf GitHub Pages öffentlich
@@ -16,7 +16,9 @@ const SITE_PASSWORD = "19102008";
    Spaß-Seite unter Freunden okay, aber KEIN echter Schutz für wirklich
    vertrauliche Daten. */
 
-const SESSION_KEY = "archive_unlocked";
+/* Bewusst KEINE sessionStorage/localStorage-Speicherung des Login-Status:
+   Bei jedem Aufruf, jedem Neuladen und jedem erneuten Öffnen muss das
+   Passwort neu eingegeben werden. */
 
 /* ==========================================================================
    LOGIN
@@ -29,22 +31,16 @@ const enterBtn = document.getElementById("enter-btn");
 const loginError = document.getElementById("login-error");
 const app = document.getElementById("app");
 
-function unlockSite(skipAnimation) {
-  sessionStorage.setItem(SESSION_KEY, "1");
-  if (skipAnimation) {
-    loginScreen.style.display = "none";
-    app.classList.add("visible");
-    return;
-  }
+function unlockSite() {
   loginScreen.classList.add("leaving");
   app.classList.add("visible");
-  setTimeout(() => { loginScreen.style.display = "none"; }, 750);
+  setTimeout(() => { loginScreen.style.display = "none"; }, 650);
 }
 
 function tryLogin() {
   const value = passwordInput.value.trim();
   if (value.length > 0 && value === SITE_PASSWORD) {
-    unlockSite(false);
+    unlockSite();
   } else {
     loginError.classList.add("show");
     loginBox.classList.remove("shake");
@@ -61,11 +57,7 @@ passwordInput.addEventListener("keydown", (e) => {
   loginError.classList.remove("show");
 });
 
-if (sessionStorage.getItem(SESSION_KEY) === "1") {
-  unlockSite(true);
-} else {
-  setTimeout(() => passwordInput.focus(), 400);
-}
+setTimeout(() => passwordInput.focus(), 400);
 
 /* ==========================================================================
    HELPERS
@@ -141,6 +133,7 @@ function photoCard(photo) {
     <div class="card-body">
       <div class="title">${photo.title || "Ohne Titel"}</div>
       <div class="meta">${metaLine([formatDate(photo.date), photo.location])}</div>
+      ${photo.comment ? `<div class="comment">${photo.comment}</div>` : ""}
     </div>`;
   placeholderOnError(card.querySelector("img"));
   card.addEventListener("click", () => openLightbox(photo.id));
@@ -271,9 +264,8 @@ function storyCard(story) {
   card.innerHTML = `
     <div class="card-media"><img loading="lazy" src="${story.cover}" alt="${story.title || ""}"></div>
     <div class="card-body">
-      <div class="title">${story.title || "Ohne Titel"}</div>
-      <div class="meta">${metaLine([formatDate(story.date), story.location])}</div>
-      <div class="excerpt">${(story.text || "").split("\n\n")[0]}</div>
+      <div class="quote">„${story.quote || story.title || ""}“</div>
+      <div class="meta">${metaLine([formatDate(story.date), story.location, story.companions])}</div>
     </div>`;
   placeholderOnError(card.querySelector("img"));
   card.addEventListener("click", () => openStoryReader(story.id));
@@ -305,7 +297,8 @@ function openStoryReader(storyId) {
   const img = document.getElementById("reader-cover-img");
   img.src = story.cover;
   placeholderOnError(img);
-  document.getElementById("reader-meta").textContent = metaLine([formatDate(story.date), story.location]);
+  document.getElementById("reader-quote").textContent = story.quote ? `„${story.quote}“` : "";
+  document.getElementById("reader-meta").textContent = metaLine([formatDate(story.date), story.location, story.companions]);
   document.getElementById("reader-title").textContent = story.title || "";
   const textHost = document.getElementById("reader-text");
   textHost.innerHTML = "";
